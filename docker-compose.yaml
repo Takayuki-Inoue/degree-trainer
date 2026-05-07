@@ -1,6 +1,6 @@
 services:
   pocket-piano-web:
-    image: registry.rodydavis.dev/pocket-piano-web:latest
+    image: git.rodydavis.dev/the-pocket-piano:latest
     restart: unless-stopped
     expose:
       - "80"

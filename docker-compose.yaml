@@ -1,6 +1,6 @@
 services:
   pocket-piano-web:
-    image: git.rodydavis.dev/the-pocket-piano:latest
+    image: git.rodydavis.dev/rodydavis/the-pocket-piano:latest
     restart: unless-stopped
     expose:
       - "80"

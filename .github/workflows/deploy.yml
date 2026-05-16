@@ -2,7 +2,11 @@ name: Build and Deploy
 
 on:
   push:
-    branches: ["master"]
+    branches: ["main", "master"]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   REGISTRY: git.rodydavis.dev
@@ -18,15 +22,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Set up Bazel (Bazelisk)
+        run: npm install -g @bazel/bazelisk
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          version: '3.41.5'
           channel: 'stable'
           architecture: x64
 
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Verify Hermetic Bazel Build
+        run: bazel build //...
 
       - name: Build Runner
         run: dart run build_runner build --delete-conflicting-outputs

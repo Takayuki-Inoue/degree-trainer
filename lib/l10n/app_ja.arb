@@ -79,5 +79,7 @@
     "languageRu": "Русский",
     "@languageRu": {},
     "language": "言語 (Gengo)",
-    "@language": {}
+    "@language": {},
+    "autoMode": "オートモード",
+    "@autoMode": {}
 }

@@ -79,5 +79,7 @@
     "languageRu": "Русский",
     "@languageRu": {},
     "language": "Язык",
-    "@language": {}
+    "@language": {},
+    "autoMode": "Авторежим",
+    "@autoMode": {}
   }

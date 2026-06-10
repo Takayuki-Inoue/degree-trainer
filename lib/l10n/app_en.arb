@@ -85,5 +85,7 @@
     "showLicenses": "Show Licenses",
     "@showLicenses": {},
     "webVersion": "Web Version",
-    "@webVersion": {}
+    "@webVersion": {},
+    "autoMode": "Auto mode",
+    "@autoMode": {}
 }

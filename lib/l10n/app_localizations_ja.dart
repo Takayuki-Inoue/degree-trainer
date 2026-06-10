@@ -136,4 +136,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get webVersion => 'Web Version';
+
+  @override
+  String get autoMode => 'オートモード';
 }

@@ -1,190 +1,75 @@
-[![Codemagic build status](https://api.codemagic.io/apps/5cd0f574c95918000ce25e99/5cd0f574c95918000ce25e98/status_badge.svg)](https://codemagic.io/apps/5cd0f574c95918000ce25e99/5cd0f574c95918000ce25e98/latest_build)
+# Degree Trainer (度数・音高トレーニングピアノ)
 
-# flutter_piano
+Flutterで構築された、音高（ピッチ）やコード（和音）の聴音トレーニングをサポートするインタラクティブなMIDIピアノアプリケーションです。
 
-A Crossplatform Midi Piano built with Flutter.dev
+アプリの核（キモ）となる機能である **「Auto Mode (自動聴音トレーニング)」** をはじめ、リアルタイムのコード認識、柔軟なキーボード設定などを備えています。
 
-* This application runs on both iOS and Android. 
-* This runs a custom crossplatform midi synth I built for a Flutter plugin `flutter_midi` that uses .SF2 sound font files. 
+---
 
-The Pocket Piano by Rody Davis
-[App Store](https://itunes.apple.com/us/app/the-pocket-piano/id1453992672?mt=8)
- | [Google Play](https://play.google.com/store/apps/details?id=com.appleeducate.flutter_piano)
+## 🌟 コア機能: Auto Mode (自動トレーニングモード) ── 本アプリの「キモ」
 
+**Auto Mode** は、メトロノームのクリック音に合わせてランダムに鳴るピアノ音を聴き、その音高や度数を瞬時に判別する耳コピ・聴音（イヤートレーニング）専用の機能です。
+
+### 🔊 動作パターンとタイミング設計 (BPM 120)
+10拍（約5秒）で1周するループサイクルとなっています。
+
+* **1小節目 (2拍 / 2拍子)**:
+  * **1拍目**: **強クリック（アクセント） ＋ ランダムなピアノ音（C2〜C5）** が発音されます。
+  * **2拍目**: 通常のクリック音。
+* **2小節目 (4拍 / 4拍子)**:
+  * **1拍目**: **強クリック（アクセント）**
+  * **2〜4拍目**: 通常のクリック音。
+* **3小節目 (4拍 / 4拍子)**:
+  * **1拍目**: **強クリック（アクセント）**
+  * **2〜4拍目**: 通常のクリック音。
+
+### 🎯 視覚的フィードバック（音高・度数のクイズ）
+ランダムな音が鳴った瞬間、画面上にそのオクターブ情報が大きく表示されます：
+* 基準となる **C（ド）** の音が鳴った場合: **`オクターブ`** と表示されます。
+* それ以外の音が鳴った場合: オクターブ番号 **`3` / `4` / `5` / `6`** （C2=3 〜 C5=6 相当）が表示されます。
+* 表示は次の音が鳴るまで画面に残り、トレーニングをサポートします。
+
+### 🎵 高音質かつ完璧なシンクロ率のクリック音
+DAWソフトウェア *Studio One* の高音質なクリック音 `Click48_24.wav` をアセットとして内蔵。
+起動時に 24-bit/48kHz のステレオWAVをアプリ内で自動的にモノラルダウンミックスおよび44.1kHzへと高品質リサンプリングし、MIDIシンセサイザーのバッファへサンプル単位でダイレクトにミックスしています。これにより、**メトロノーム音とピアノ発音のレイテンシー（音ズレ）がゼロ**の完璧なトレーニング体験を実現しています。
+
+---
+
+## 🎹 その他の特徴
+
+1. **高品質なSoundFontシンセサイザー**
+   * 内蔵された `Piano.sf2` を使用して、モバイルやデスクトップなど全プラットフォームで高品位なピアノ音を合成再生します。
+2. **リアルタイム・コード（和音）認識**
+   * キーボードで弾いた複数の音をリアルタイムに解析し、コード名（「C Major」「Am7」など）を画面に表示します。
+3. **キーボードのカスタマイズ**
+   * キー幅（鍵盤のサイズ）の調整。
+   * オクターブの調整（Z/Xキー）、ベロシティ（打鍵強さ）の変更（C/Vキー）、サステイン of ON/OFF（Spaceキー）。
+
+---
+
+## 🚀 はじめかた
+
+### 依存関係のセットアップ
+Flutter SDKがインストールされていることを確認し、プロジェクトのルートディレクトリで以下を実行します。
+
+```bash
+flutter pub get
 ```
- assets:
-   - assets/sounds/Piano.SF2
 
+### アプリの起動
+```bash
+flutter run
 ```
-* There are Semantics included for the visually impaired. All keys show up as buttons and have the pitch name of the midi note not just the number.
 
-## Getting Started
+* **音量を確認してください**: アプリ起動時は、端末の音量が上がっていることを確認してください。
+* **Auto Modeの開始**: アプリバー右側にある再生ボタンをクリックするとAuto Modeが開始し、停止ボタンで終了します。
 
-This application only runs in landscape mode, orientation is set in the AndroidManifest.xml and in the Runner.xcworspace settings.
+---
 
-1. Make sure to turn your volume up and unmute the phone (the application will try to unmute the device but it can be overriden).
-2. Tap on any note to play
-3. Scroll in either direction to change octaves
-4. Polyphony is supported with multiple fingers
+## 🧪 テストの実行
 
-## Configuration
+機能のロジックやタイミング、変換アルゴリズムの健全性を担保するため、単体テストを完備しています。
 
-* Optionally the key width can be changed in the settings for adjusting key densitity.
-* The key labels can also be turned off if you want a more minimal look.
-* You can change the Piano.sf2 file to any sound font file for playing different instruments. 
-
-## Code
-
- ``` dart
- import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_midi/flutter_midi.dart';
-import 'package:tonic/tonic.dart';
-
-void main() => runApp(MyApp());
-
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  initState() {
-    FlutterMidi.unmute();
-    rootBundle.load("assets/sounds/Piano.SF2").then((sf2) {
-      FlutterMidi.prepare(sf2: sf2, name: "Piano.SF2");
-    });
-    super.initState();
-  }
-
-  double get keyWidth => 80 + (80 * _widthRatio);
-  double _widthRatio = 0.0;
-  bool _showLabels = true;
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'The Pocket Piano',
-      theme: ThemeData.dark(),
-      home: Scaffold(
-          drawer: Drawer(
-              child: SafeArea(
-                  child: ListView(children: <Widget>[
-            Container(height: 20.0),
-            ListTile(title: Text("Change Width")),
-            Slider(
-                activeColor: Colors.redAccent,
-                inactiveColor: Colors.white,
-                min: 0.0,
-                max: 1.0,
-                value: _widthRatio,
-                onChanged: (double value) =>
-                    setState(() => _widthRatio = value)),
-            Divider(),
-            ListTile(
-                title: Text("Show Labels"),
-                trailing: Switch(
-                    value: _showLabels,
-                    onChanged: (bool value) =>
-                        setState(() => _showLabels = value))),
-            Divider(),
-          ]))),
-          appBar: AppBar(title: Text("The Pocket Piano")),
-          body: ListView.builder(
-            itemCount: 7,
-            controller: ScrollController(initialScrollOffset: 1500.0),
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (BuildContext context, int index) {
-              final int i = index * 12;
-              return SafeArea(
-                child: Stack(children: <Widget>[
-                  Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                    _buildKey(24 + i, false),
-                    _buildKey(26 + i, false),
-                    _buildKey(28 + i, false),
-                    _buildKey(29 + i, false),
-                    _buildKey(31 + i, false),
-                    _buildKey(33 + i, false),
-                    _buildKey(35 + i, false),
-                  ]),
-                  Positioned(
-                      left: 0.0,
-                      right: 0.0,
-                      bottom: 100,
-                      top: 0.0,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Container(width: keyWidth * .5),
-                            _buildKey(25 + i, true),
-                            _buildKey(27 + i, true),
-                            Container(width: keyWidth),
-                            _buildKey(30 + i, true),
-                            _buildKey(32 + i, true),
-                            _buildKey(34 + i, true),
-                            Container(width: keyWidth * .5),
-                          ])),
-                ]),
-              );
-            },
-          )),
-    );
-  }
-
-  Widget _buildKey(int midi, bool accidental) {
-    final pitchName = Pitch.fromMidiNumber(midi).toString();
-    final pianoKey = Stack(
-      children: <Widget>[
-        Semantics(
-            button: true,
-            hint: pitchName,
-            child: Material(
-                borderRadius: borderRadius,
-                color: accidental ? Colors.black : Colors.white,
-                child: InkWell(
-                  borderRadius: borderRadius,
-                  highlightColor: Colors.grey,
-                  onTap: () {},
-                  onTapDown: (_) => FlutterMidi.playMidiNote(midi: midi),
-                ))),
-        Positioned(
-            left: 0.0,
-            right: 0.0,
-            bottom: 20.0,
-            child: _showLabels
-                ? Text(pitchName,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: !accidental ? Colors.black : Colors.white))
-                : Container()),
-      ],
-    );
-    if (accidental) {
-      return Container(
-          width: keyWidth,
-          margin: EdgeInsets.symmetric(horizontal: 2.0),
-          padding: EdgeInsets.symmetric(horizontal: keyWidth * .1),
-          child: Material(
-              elevation: 6.0,
-              borderRadius: borderRadius,
-              shadowColor: Color(0x802196F3),
-              child: pianoKey));
-    }
-    return Container(
-        width: keyWidth,
-        child: pianoKey,
-        margin: EdgeInsets.symmetric(horizontal: 2.0));
-  }
-}
-
-const BorderRadiusGeometry borderRadius = BorderRadius.only(
-    bottomLeft: Radius.circular(10.0), bottomRight: Radius.circular(10.0));
-
- ```
- ### Total Dart Code Size: 5039 bytes
- 
- ## Special Thanks
- - @DFreds
- - @jesusrp98
+```bash
+flutter test
+```

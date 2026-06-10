@@ -79,5 +79,7 @@
     "languageRu": "러시아어",
     "@languageRu": {},
     "language": "언어 (Eongeo)",
-    "@language": {}
+    "@language": {},
+    "autoMode": "자동 모드",
+    "@autoMode": {}
 }

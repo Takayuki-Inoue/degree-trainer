@@ -13,6 +13,7 @@ import '../hooks/use_sustain.dart';
 import '../hooks/use_player.dart';
 import '../hooks/use_piano_keyboard.dart';
 import '../hooks/use_chord_recognition.dart';
+import '../hooks/use_auto_mode.dart';
 
 class Home extends HookWidget {
   const Home({super.key});
@@ -31,6 +32,7 @@ class Home extends HookWidget {
     final sustain = useSustain();
     final player = usePlayer(sustain: sustain.value);
     final chord = useChordRecognition();
+    final autoMode = useAutoMode(player: player);
 
     final onKeyEvent = usePianoKeyboard(
       octave: octave,
@@ -128,6 +130,15 @@ class Home extends HookWidget {
                       : LucideIcons.maximize),
                 ),
               ],
+              Tooltip(
+                message: context.locale.autoMode,
+                child: ShadIconButton.ghost(
+                  onPressed: autoMode.toggle,
+                  icon: Icon(
+                    autoMode.isActive ? LucideIcons.square : LucideIcons.play,
+                  ),
+                ),
+              ),
               ShadIconButton.ghost(
                 onPressed: () => context.push('/settings'),
                 icon: const Icon(LucideIcons.settings),
@@ -137,6 +148,17 @@ class Home extends HookWidget {
           backgroundColor: ShadTheme.of(context).colorScheme.background,
           body: Column(
             children: [
+              if (autoMode.displayLabel != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    autoMode.displayLabel!,
+                    style: shadTheme.textTheme.h1.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: shadTheme.colorScheme.primary,
+                    ),
+                  ),
+                ),
               Expanded(
                 child: Builder(builder: (context) {
                   if (canSplit && splitKeyboard) {

@@ -51,5 +51,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/sounds/Piano.sf2
+    - assets/sounds/Click48_24.wav
     - CHANGELOG.md
     - web/icons/Icon-192.png

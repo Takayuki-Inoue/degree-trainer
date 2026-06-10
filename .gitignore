@@ -53,3 +53,7 @@ yarn-error.log*
 /build/
 *.flutter-plugins
 *.flutter-plugins-dependencies
+.flutter-plugins-dependencies
+*.iml
+windows/flutter/ephemeral/
+test/widget_test.dart

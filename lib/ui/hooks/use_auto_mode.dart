@@ -39,8 +39,8 @@ AutoModeState useAutoMode({required PianoPlayer player}) {
     var beat = 0;
     Timer? noteStopTimer;
 
-    Future<void> playClick({required bool accent}) async {
-      await playerRef.value.playClick(accent: accent);
+    Future<void> playClick() async {
+      await playerRef.value.playClick();
     }
 
     Future<void> playRandomNote() async {
@@ -55,15 +55,11 @@ AutoModeState useAutoMode({required PianoPlayer player}) {
 
     void onBeat() {
       switch (AutoModeNote.actionAtBeat(beat)) {
-        case AutoModeBeatAction.accentAndNote:
-          playClick(accent: true);
+        case AutoModeBeatAction.note:
+          playClick();
           playRandomNote();
-        case AutoModeBeatAction.accent:
-          playClick(accent: true);
         case AutoModeBeatAction.click:
-          playClick(accent: false);
-        case AutoModeBeatAction.rest:
-          break;
+          playClick();
       }
       beat++;
     }

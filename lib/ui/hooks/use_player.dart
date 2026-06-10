@@ -15,8 +15,8 @@ class PianoPlayer {
     await service.stop(midi, sustain: globalSustain);
   }
 
-  Future<void> playClick({required bool accent}) async {
-    await service.playClick(accent: accent);
+  Future<void> playClick() async {
+    await service.playClick();
   }
 }
 

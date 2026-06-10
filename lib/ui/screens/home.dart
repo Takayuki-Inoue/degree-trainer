@@ -130,15 +130,29 @@ class Home extends HookWidget {
                       : LucideIcons.maximize),
                 ),
               ],
-              Tooltip(
-                message: context.locale.autoMode,
-                child: ShadIconButton.ghost(
-                  onPressed: autoMode.toggle,
-                  icon: Icon(
-                    autoMode.isActive ? LucideIcons.square : LucideIcons.play,
-                  ),
-                ),
-              ),
+              autoMode.isActive
+                  ? ShadButton(
+                      onPressed: autoMode.toggle,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(LucideIcons.square, size: 16),
+                          const SizedBox(width: 8),
+                          Text(context.locale.autoMode),
+                        ],
+                      ),
+                    )
+                  : ShadButton.outline(
+                      onPressed: autoMode.toggle,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(LucideIcons.play, size: 16),
+                          const SizedBox(width: 8),
+                          Text(context.locale.autoMode),
+                        ],
+                      ),
+                    ),
               ShadIconButton.ghost(
                 onPressed: () => context.push('/settings'),
                 icon: const Icon(LucideIcons.settings),

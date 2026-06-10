@@ -25,19 +25,13 @@ void main() {
       expect(AutoModeNote.beatDuration, const Duration(milliseconds: 500));
     });
 
-    test('cyclePattern plays clicks on all beats, with accents on downbeats', () {
+    test('cyclePattern plays clicks on all beats, with a random note on first beat', () {
       expect(AutoModeNote.cyclePattern, hasLength(10));
-      expect(AutoModeNote.actionAtBeat(0), AutoModeBeatAction.accentAndNote);
-      expect(AutoModeNote.actionAtBeat(1), AutoModeBeatAction.click);
-      expect(AutoModeNote.actionAtBeat(2), AutoModeBeatAction.accent);
-      expect(AutoModeNote.actionAtBeat(3), AutoModeBeatAction.click);
-      expect(AutoModeNote.actionAtBeat(4), AutoModeBeatAction.click);
-      expect(AutoModeNote.actionAtBeat(5), AutoModeBeatAction.click);
-      expect(AutoModeNote.actionAtBeat(6), AutoModeBeatAction.accent);
-      expect(AutoModeNote.actionAtBeat(7), AutoModeBeatAction.click);
-      expect(AutoModeNote.actionAtBeat(8), AutoModeBeatAction.click);
-      expect(AutoModeNote.actionAtBeat(9), AutoModeBeatAction.click);
-      expect(AutoModeNote.actionAtBeat(10), AutoModeBeatAction.accentAndNote);
+      expect(AutoModeNote.actionAtBeat(0), AutoModeBeatAction.note);
+      for (var i = 1; i < 10; i++) {
+        expect(AutoModeNote.actionAtBeat(i), AutoModeBeatAction.click);
+      }
+      expect(AutoModeNote.actionAtBeat(10), AutoModeBeatAction.note);
     });
   });
 }

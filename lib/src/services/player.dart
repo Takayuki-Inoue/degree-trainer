@@ -169,8 +169,8 @@ class PlayerService {
     await _audioPlayer.feed(buffer);
   }
 
-  Future<void> playClick({required bool accent}) async {
-    _clickVolumeMultiplier = accent ? 1.0 : 0.4;
+  Future<void> playClick() async {
+    _clickVolumeMultiplier = 0.6;
     _clickPlaybackIndex = 0;
     _audioPlayer.play();
   }

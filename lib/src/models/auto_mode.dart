@@ -3,6 +3,7 @@ import 'dart:math';
 /// What happens on each beat of the auto mode loop.
 enum AutoModeBeatAction {
   accentAndNote,
+  accent,
   click,
   rest,
 }
@@ -15,23 +16,20 @@ class AutoModeNote {
   static const maxMidi = 72; // C5
   static const bpm = 120;
   static const beatDuration = Duration(milliseconds: 60000 ~/ bpm);
-  static const clickMidi = 77;
-  static const accentMidi = 80;
-  static const clickDuration = Duration(milliseconds: 80);
   static const noteDuration = Duration(milliseconds: 350);
 
-  /// 2/4 bar (accent+note, click) → 4/4 rest → 4/4 rest → repeat.
+  /// 2/4 bar (accent+note, click) → 4/4 bar (accent, 3 clicks) → 4/4 bar (accent, 3 clicks) → repeat.
   static const List<AutoModeBeatAction> cyclePattern = [
-    AutoModeBeatAction.accentAndNote, // bar 1 beat 1
+    AutoModeBeatAction.accentAndNote, // bar 1 beat 1 (2/4)
     AutoModeBeatAction.click, // bar 1 beat 2
-    AutoModeBeatAction.rest, // bar 2 beat 1
-    AutoModeBeatAction.rest, // bar 2 beat 2
-    AutoModeBeatAction.rest, // bar 2 beat 3
-    AutoModeBeatAction.rest, // bar 2 beat 4
-    AutoModeBeatAction.rest, // bar 3 beat 1
-    AutoModeBeatAction.rest, // bar 3 beat 2
-    AutoModeBeatAction.rest, // bar 3 beat 3
-    AutoModeBeatAction.rest, // bar 3 beat 4
+    AutoModeBeatAction.accent, // bar 2 beat 1 (4/4)
+    AutoModeBeatAction.click, // bar 2 beat 2
+    AutoModeBeatAction.click, // bar 2 beat 3
+    AutoModeBeatAction.click, // bar 2 beat 4
+    AutoModeBeatAction.accent, // bar 3 beat 1 (4/4)
+    AutoModeBeatAction.click, // bar 3 beat 2
+    AutoModeBeatAction.click, // bar 3 beat 3
+    AutoModeBeatAction.click, // bar 3 beat 4
   ];
 
   static AutoModeBeatAction actionAtBeat(int beatIndex) {

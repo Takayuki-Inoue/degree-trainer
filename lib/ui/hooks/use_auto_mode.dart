@@ -37,16 +37,10 @@ AutoModeState useAutoMode({required PianoPlayer player}) {
 
     final random = Random();
     var beat = 0;
-    Timer? clickStopTimer;
     Timer? noteStopTimer;
 
     Future<void> playClick({required bool accent}) async {
-      final midi = accent ? AutoModeNote.accentMidi : AutoModeNote.clickMidi;
-      clickStopTimer?.cancel();
-      await playerRef.value.play(midi);
-      clickStopTimer = Timer(AutoModeNote.clickDuration, () {
-        playerRef.value.stop(midi);
-      });
+      await playerRef.value.playClick(accent: accent);
     }
 
     Future<void> playRandomNote() async {
@@ -64,6 +58,8 @@ AutoModeState useAutoMode({required PianoPlayer player}) {
         case AutoModeBeatAction.accentAndNote:
           playClick(accent: true);
           playRandomNote();
+        case AutoModeBeatAction.accent:
+          playClick(accent: true);
         case AutoModeBeatAction.click:
           playClick(accent: false);
         case AutoModeBeatAction.rest:
@@ -77,7 +73,6 @@ AutoModeState useAutoMode({required PianoPlayer player}) {
 
     return () {
       timer.cancel();
-      clickStopTimer?.cancel();
       noteStopTimer?.cancel();
     };
   }, [isActive.value]);

@@ -136,4 +136,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get webVersion => 'Web Version';
+
+  @override
+  String get autoMode => '自动模式';
 }

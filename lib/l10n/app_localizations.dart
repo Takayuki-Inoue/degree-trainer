@@ -367,6 +367,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Web Version'**
   String get webVersion;
+
+  /// No description provided for @autoMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto mode'**
+  String get autoMode;
 }
 
 class _AppLocalizationsDelegate

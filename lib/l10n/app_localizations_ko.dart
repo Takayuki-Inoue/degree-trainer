@@ -136,4 +136,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get webVersion => 'Web Version';
+
+  @override
+  String get autoMode => '자동 모드';
 }

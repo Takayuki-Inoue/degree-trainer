@@ -79,5 +79,7 @@
     "languageRu": "俄语",
     "@languageRu": {},
     "language": "语言 (Yǔyán)",
-    "@language": {}
+    "@language": {},
+    "autoMode": "自动模式",
+    "@autoMode": {}
 }

@@ -5,7 +5,7 @@ import 'package:flutter_piano/src/models/auto_mode.dart';
 
 void main() {
   group('AutoModeNote', () {
-    test('randomMidi stays within C2 to C5', () {
+    test('randomMidi stays within C2 to C6', () {
       final random = Random(0);
       for (var i = 0; i < 100; i++) {
         final midi = AutoModeNote.randomMidi(random);
@@ -19,6 +19,8 @@ void main() {
       expect(AutoModeNote.displayLabel(48), 'オクターブ'); // C3
       expect(AutoModeNote.displayLabel(64), '5'); // E4
       expect(AutoModeNote.displayLabel(72), 'オクターブ'); // C5
+      expect(AutoModeNote.displayLabel(76), '6'); // E5
+      expect(AutoModeNote.displayLabel(84), 'オクターブ'); // C6
     });
 
     test('beatDuration matches BPM 120', () {

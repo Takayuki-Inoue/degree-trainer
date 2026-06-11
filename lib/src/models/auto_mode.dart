@@ -6,12 +6,12 @@ enum AutoModeBeatAction {
   click,
 }
 
-/// Auto mode: metronome at 120 BPM with random single notes (C2–C5).
+/// Auto mode: metronome at 120 BPM with random single notes (C2–C6).
 class AutoModeNote {
   AutoModeNote._();
 
   static const minMidi = 36; // C2
-  static const maxMidi = 72; // C5
+  static const maxMidi = 84; // C6
   static const bpm = 120;
   static const beatDuration = Duration(milliseconds: 60000 ~/ bpm);
   static const noteDuration = Duration(milliseconds: 350);
@@ -38,7 +38,7 @@ class AutoModeNote {
     return minMidi + random.nextInt(maxMidi - minMidi + 1);
   }
 
-  /// C → オクターブ, others → octave register 3–6 (C2=3 … C5=6).
+  /// C → オクターブ, others → octave register 3–7 (C2=3 … C6=7).
   static String displayLabel(int midi) {
     if (midi % 12 == 0) return 'オクターブ';
     return '${midi ~/ 12}';

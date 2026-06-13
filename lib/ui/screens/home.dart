@@ -7,7 +7,6 @@ import '../../src/services/settings.dart';
 import '../../src/services/injection.dart';
 import '../widgets/locale.dart';
 import '../widgets/piano_view.dart';
-import '../hooks/use_octave.dart';
 import '../hooks/use_velocity.dart';
 import '../hooks/use_sustain.dart';
 import '../hooks/use_player.dart';
@@ -27,7 +26,6 @@ class Home extends HookWidget {
     );
 
     final focusNode = useFocusNode();
-    final octave = useOctave();
     final velocity = useVelocity();
     final sustain = useSustain();
     final player = usePlayer(sustain: sustain.value);
@@ -35,7 +33,6 @@ class Home extends HookWidget {
     final autoMode = useAutoMode(player: player);
 
     final onKeyEvent = usePianoKeyboard(
-      octave: octave,
       velocity: velocity,
       sustain: sustain,
       player: player,
@@ -96,25 +93,6 @@ class Home extends HookWidget {
               ],
             ),
             actions: [
-              if (showControls) ...[
-                ShadIconButton(
-                  onPressed: () => octave.adjust(-1),
-                  icon: const Icon(LucideIcons.minus),
-                ),
-                const SizedBox(width: 4),
-                ShadIconButton.outline(
-                  onPressed: octave.reset,
-                  icon: Text(
-                    octave.offset.toString(),
-                  ),
-                ),
-                const SizedBox(width: 4),
-                ShadIconButton(
-                  onPressed: () => octave.adjust(1),
-                  icon: const Icon(LucideIcons.plus),
-                ),
-                const SizedBox(width: 10),
-              ],
               Text('${context.locale.sustain}:'),
               ShadSwitch(
                 value: sustain.value,

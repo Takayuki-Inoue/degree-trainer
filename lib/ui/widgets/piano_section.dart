@@ -11,12 +11,14 @@ class PianoSection extends HookWidget {
     required this.onPlay,
     this.onStop,
     required this.settings,
+    this.autoModeMidi,
   });
 
   final int index;
   final ValueChanged<int> onPlay;
   final ValueChanged<int>? onStop;
   final SettingsService settings;
+  final int? autoModeMidi;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +68,7 @@ class PianoSection extends HookWidget {
       accidental: accidental,
       onPlay: () => onPlay(midi),
       onStop: onStop != null ? () => onStop!(midi) : null,
+      autoModeMidi: autoModeMidi,
     );
   }
 }

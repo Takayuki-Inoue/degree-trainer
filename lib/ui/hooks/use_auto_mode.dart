@@ -10,11 +10,13 @@ import 'use_player.dart';
 class AutoModeState {
   final bool isActive;
   final String? displayLabel;
+  final int? currentMidi;
   final VoidCallback toggle;
 
   const AutoModeState({
     required this.isActive,
     required this.displayLabel,
+    required this.currentMidi,
     required this.toggle,
   });
 }
@@ -26,6 +28,7 @@ AutoModeState useAutoMode({
 }) {
   final isActive = useState(false);
   final displayLabel = useState<String?>(null);
+  final currentMidi = useState<int?>(null);
   final playerRef = useRef(player);
   playerRef.value = player;
   final minMidiRef = useRef(minMidi);
@@ -37,6 +40,7 @@ AutoModeState useAutoMode({
     isActive.value = !isActive.value;
     if (!isActive.value) {
       displayLabel.value = null;
+      currentMidi.value = null;
     }
   }, []);
 
@@ -54,10 +58,12 @@ AutoModeState useAutoMode({
     Future<void> playRandomNote() async {
       final midi = AutoModeNote.randomMidi(random, minNote: minMidiRef.value, maxNote: maxMidiRef.value);
       displayLabel.value = AutoModeNote.randomDisplayLabel(random);
+      currentMidi.value = midi;
       noteStopTimer?.cancel();
       await playerRef.value.play(midi);
       noteStopTimer = Timer(AutoModeNote.noteDuration, () {
         playerRef.value.stop(midi);
+        currentMidi.value = null;
       });
     }
 
@@ -84,6 +90,7 @@ AutoModeState useAutoMode({
   return AutoModeState(
     isActive: isActive.value,
     displayLabel: displayLabel.value,
+    currentMidi: currentMidi.value,
     toggle: toggle,
   );
 }

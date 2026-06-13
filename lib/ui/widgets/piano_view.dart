@@ -12,12 +12,14 @@ class PianoView extends HookWidget {
     required this.onPlay,
     this.onStop,
     required this.settings,
+    this.autoModeMidi,
   });
 
   final int octaves;
   final ValueChanged<int> onPlay;
   final ValueChanged<int>? onStop;
   final SettingsService settings;
+  final int? autoModeMidi;
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +81,7 @@ class PianoView extends HookWidget {
                 onPlay: onPlay,
                 onStop: onStop,
                 settings: settings,
+                autoModeMidi: autoModeMidi,
               );
             },
           ),

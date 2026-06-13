@@ -182,6 +182,7 @@ class Home extends HookWidget {
                     onPlay: onPlay,
                     onStop: onStop,
                     settings: settingsService,
+                    autoModeMidi: autoMode.currentMidi,
                   );
                 }),
               ),

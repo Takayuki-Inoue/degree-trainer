@@ -14,6 +14,7 @@ class PianoKey extends HookWidget {
     required this.onPlay,
     this.onStop,
     required this.settings,
+    this.autoModeMidi,
   });
 
   final bool accidental;
@@ -21,6 +22,7 @@ class PianoKey extends HookWidget {
   final VoidCallback onPlay;
   final VoidCallback? onStop;
   final SettingsService settings;
+  final int? autoModeMidi;
 
   static const BorderRadius borderRadius = BorderRadius.only(
     bottomLeft: Radius.circular(8),
@@ -103,6 +105,22 @@ class PianoKey extends HookWidget {
               hint: pitchName,
               child: const SizedBox.expand(),
             ),
+            if (autoModeMidi == midi)
+              Positioned(
+                left: 0.0,
+                right: 0.0,
+                bottom: 36.0,
+                child: Center(
+                  child: Container(
+                    width: 10,
+                    height: 10,
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+              ),
             Positioned(
               left: 0.0,
               right: 0.0,

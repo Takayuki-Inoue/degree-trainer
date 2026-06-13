@@ -5,7 +5,7 @@ import 'package:flutter_piano/src/models/auto_mode.dart';
 
 void main() {
   group('AutoModeNote', () {
-    test('randomMidi stays within C2 to C6', () {
+    test('randomMidi stays within C2 to C5 by default', () {
       final random = Random(0);
       for (var i = 0; i < 100; i++) {
         final midi = AutoModeNote.randomMidi(random);

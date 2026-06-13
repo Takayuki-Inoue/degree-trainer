@@ -22,6 +22,8 @@ class SettingsService {
   final colorRole = ValueNotifier<ColorRole>(ColorRole.monoChrome);
   final haptics = ValueNotifier<bool>(true);
   final locale = ValueNotifier<Locale?>(null);
+  final autoModeMinMidi = ValueNotifier<int>(36); // C2
+  final autoModeMaxMidi = ValueNotifier<int>(72); // C5
 
   void _loadSettings() {
     disableScroll.value = _prefs.getBool('disableScroll') ?? false;
@@ -52,7 +54,9 @@ class SettingsService {
       );
     }
     haptics.value = _prefs.getBool('haptics') ?? true;
-    
+    autoModeMinMidi.value = _prefs.getInt('autoModeMinMidi') ?? 36;
+    autoModeMaxMidi.value = _prefs.getInt('autoModeMaxMidi') ?? 72;
+
     final localeName = _prefs.getString('locale');
     if (localeName != null) {
       locale.value = Locale(localeName);
@@ -71,6 +75,8 @@ class SettingsService {
     keyLabels.addListener(() => _prefs.setString('keyLabels', keyLabels.value.name));
     colorRole.addListener(() => _prefs.setString('colorRole', colorRole.value.name));
     haptics.addListener(() => _prefs.setBool('haptics', haptics.value));
+    autoModeMinMidi.addListener(() => _prefs.setInt('autoModeMinMidi', autoModeMinMidi.value));
+    autoModeMaxMidi.addListener(() => _prefs.setInt('autoModeMaxMidi', autoModeMaxMidi.value));
     locale.addListener(() {
       if (locale.value != null) {
         _prefs.setString('locale', locale.value!.languageCode);

@@ -10,6 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../src/services/settings.dart';
 import '../../src/models/settings_models.dart';
+import '../../src/models/auto_mode.dart';
 import '../../src/version.dart';
 import '../widgets/color_picker.dart';
 import '../widgets/locale.dart';
@@ -37,6 +38,10 @@ class SettingsScreen extends HookWidget {
         settings.disableScroll, () => settings.disableScroll.value);
     final currentLocale =
         useListenableSelector(settings.locale, () => settings.locale.value);
+    final autoModeMinMidi = useListenableSelector(
+        settings.autoModeMinMidi, () => settings.autoModeMinMidi.value);
+    final autoModeMaxMidi = useListenableSelector(
+        settings.autoModeMaxMidi, () => settings.autoModeMaxMidi.value);
 
     final shadTheme = ShadTheme.of(context);
 
@@ -145,6 +150,51 @@ class SettingsScreen extends HookWidget {
                 child: ShadSwitch(
                   value: disableScroll,
                   onChanged: (value) => settings.disableScroll.value = value,
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Auto Mode Section
+              _SectionHeader(title: "Auto Mode"),
+              _SettingRow(
+                label: "最低音",
+                child: ShadSelect<int>(
+                  initialValue: autoModeMinMidi,
+                  onChanged: (value) {
+                    if (value != null && value < settings.autoModeMaxMidi.value) {
+                      settings.autoModeMinMidi.value = value;
+                    }
+                  },
+                  options: [
+                    for (final midi in AutoModeNote.whiteKeyMidis)
+                      ShadOption(
+                        value: midi,
+                        child: Text(AutoModeNote.midiToNoteName(midi)),
+                      ),
+                  ],
+                  selectedOptionBuilder: (context, value) =>
+                      Text(AutoModeNote.midiToNoteName(value)),
+                ),
+              ),
+              const SizedBox(height: 8),
+              _SettingRow(
+                label: "最高音",
+                child: ShadSelect<int>(
+                  initialValue: autoModeMaxMidi,
+                  onChanged: (value) {
+                    if (value != null && value > settings.autoModeMinMidi.value) {
+                      settings.autoModeMaxMidi.value = value;
+                    }
+                  },
+                  options: [
+                    for (final midi in AutoModeNote.whiteKeyMidis)
+                      ShadOption(
+                        value: midi,
+                        child: Text(AutoModeNote.midiToNoteName(midi)),
+                      ),
+                  ],
+                  selectedOptionBuilder: (context, value) =>
+                      Text(AutoModeNote.midiToNoteName(value)),
                 ),
               ),
               const SizedBox(height: 24),

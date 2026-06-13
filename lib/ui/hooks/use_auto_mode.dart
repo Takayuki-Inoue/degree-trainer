@@ -19,11 +19,19 @@ class AutoModeState {
   });
 }
 
-AutoModeState useAutoMode({required PianoPlayer player}) {
+AutoModeState useAutoMode({
+  required PianoPlayer player,
+  required int minMidi,
+  required int maxMidi,
+}) {
   final isActive = useState(false);
   final displayLabel = useState<String?>(null);
   final playerRef = useRef(player);
   playerRef.value = player;
+  final minMidiRef = useRef(minMidi);
+  minMidiRef.value = minMidi;
+  final maxMidiRef = useRef(maxMidi);
+  maxMidiRef.value = maxMidi;
 
   final toggle = useCallback(() {
     isActive.value = !isActive.value;
@@ -44,7 +52,7 @@ AutoModeState useAutoMode({required PianoPlayer player}) {
     }
 
     Future<void> playRandomNote() async {
-      final midi = AutoModeNote.randomMidi(random);
+      final midi = AutoModeNote.randomMidi(random, minNote: minMidiRef.value, maxNote: maxMidiRef.value);
       displayLabel.value = AutoModeNote.randomDisplayLabel(random);
       noteStopTimer?.cancel();
       await playerRef.value.play(midi);

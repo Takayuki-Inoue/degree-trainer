@@ -25,12 +25,15 @@ class Home extends HookWidget {
       () => settingsService.splitKeyboard.value,
     );
 
+    final autoModeMinMidi = useListenableSelector(settingsService.autoModeMinMidi, () => settingsService.autoModeMinMidi.value);
+    final autoModeMaxMidi = useListenableSelector(settingsService.autoModeMaxMidi, () => settingsService.autoModeMaxMidi.value);
+
     final focusNode = useFocusNode();
     final velocity = useVelocity();
     final sustain = useSustain();
     final player = usePlayer(sustain: sustain.value);
     final chord = useChordRecognition();
-    final autoMode = useAutoMode(player: player);
+    final autoMode = useAutoMode(player: player, minMidi: autoModeMinMidi, maxMidi: autoModeMaxMidi);
 
     final onKeyEvent = usePianoKeyboard(
       velocity: velocity,

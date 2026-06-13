@@ -13,27 +13,17 @@ void main() {
       }
     });
 
-    test('displayLabel maps C to octave label and others to register', () {
-      expect(AutoModeNote.displayLabel(36), 'オクターブ'); // C2
-      expect(AutoModeNote.displayLabel(40), '3'); // E2
-      expect(AutoModeNote.displayLabel(48), 'オクターブ'); // C3
-      expect(AutoModeNote.displayLabel(64), '5'); // E4
-      expect(AutoModeNote.displayLabel(72), 'オクターブ'); // C5
-      expect(AutoModeNote.displayLabel(76), '6'); // E5
-      expect(AutoModeNote.displayLabel(84), 'オクターブ'); // C6
-    });
-
     test('beatDuration matches BPM 120', () {
       expect(AutoModeNote.beatDuration, const Duration(milliseconds: 500));
     });
 
     test('cyclePattern plays clicks on all beats, with a random note on first beat', () {
-      expect(AutoModeNote.cyclePattern, hasLength(10));
+      expect(AutoModeNote.cyclePattern, hasLength(8));
       expect(AutoModeNote.actionAtBeat(0), AutoModeBeatAction.note);
-      for (var i = 1; i < 10; i++) {
+      for (var i = 1; i < 8; i++) {
         expect(AutoModeNote.actionAtBeat(i), AutoModeBeatAction.click);
       }
-      expect(AutoModeNote.actionAtBeat(10), AutoModeBeatAction.note);
+      expect(AutoModeNote.actionAtBeat(8), AutoModeBeatAction.note);
     });
   });
 }

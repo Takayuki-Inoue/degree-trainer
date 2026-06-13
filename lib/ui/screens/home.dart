@@ -74,7 +74,6 @@ class Home extends HookWidget {
           appBar: AppBar(
             title: Row(
               children: [
-                Text(context.locale.title),
                 if (isLandscape && chord.chord.isNotEmpty) ...[
                   const SizedBox(width: 12),
                   Container(

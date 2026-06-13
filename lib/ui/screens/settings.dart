@@ -159,18 +159,18 @@ class SettingsScreen extends HookWidget {
               _SettingRow(
                 label: "最低音",
                 child: ShadSelect<int>(
+                  key: ValueKey(autoModeMinMidi),
                   initialValue: autoModeMinMidi,
                   onChanged: (value) {
-                    if (value != null && value < settings.autoModeMaxMidi.value) {
-                      settings.autoModeMinMidi.value = value;
-                    }
+                    if (value != null) settings.autoModeMinMidi.value = value;
                   },
                   options: [
                     for (final midi in AutoModeNote.whiteKeyMidis)
-                      ShadOption(
-                        value: midi,
-                        child: Text(AutoModeNote.midiToNoteName(midi)),
-                      ),
+                      if (midi < autoModeMaxMidi)
+                        ShadOption(
+                          value: midi,
+                          child: Text(AutoModeNote.midiToNoteName(midi)),
+                        ),
                   ],
                   selectedOptionBuilder: (context, value) =>
                       Text(AutoModeNote.midiToNoteName(value)),
@@ -180,18 +180,18 @@ class SettingsScreen extends HookWidget {
               _SettingRow(
                 label: "最高音",
                 child: ShadSelect<int>(
+                  key: ValueKey(autoModeMaxMidi),
                   initialValue: autoModeMaxMidi,
                   onChanged: (value) {
-                    if (value != null && value > settings.autoModeMinMidi.value) {
-                      settings.autoModeMaxMidi.value = value;
-                    }
+                    if (value != null) settings.autoModeMaxMidi.value = value;
                   },
                   options: [
                     for (final midi in AutoModeNote.whiteKeyMidis)
-                      ShadOption(
-                        value: midi,
-                        child: Text(AutoModeNote.midiToNoteName(midi)),
-                      ),
+                      if (midi > autoModeMinMidi)
+                        ShadOption(
+                          value: midi,
+                          child: Text(AutoModeNote.midiToNoteName(midi)),
+                        ),
                   ],
                   selectedOptionBuilder: (context, value) =>
                       Text(AutoModeNote.midiToNoteName(value)),

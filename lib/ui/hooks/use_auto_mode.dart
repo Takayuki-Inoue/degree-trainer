@@ -45,7 +45,7 @@ AutoModeState useAutoMode({required PianoPlayer player}) {
 
     Future<void> playRandomNote() async {
       final midi = AutoModeNote.randomMidi(random);
-      displayLabel.value = AutoModeNote.displayLabel(midi);
+      displayLabel.value = AutoModeNote.randomDisplayLabel(random);
       noteStopTimer?.cancel();
       await playerRef.value.play(midi);
       noteStopTimer = Timer(AutoModeNote.noteDuration, () {

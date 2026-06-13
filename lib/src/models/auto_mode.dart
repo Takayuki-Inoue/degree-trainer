@@ -38,9 +38,9 @@ class AutoModeNote {
     return minMidi + random.nextInt(maxMidi - minMidi + 1);
   }
 
-  /// C → オクターブ, others → octave register 3–7 (C2=3 … C6=7).
-  static String displayLabel(int midi) {
-    if (midi % 12 == 0) return 'オクターブ';
-    return '${midi ~/ 12}';
+  static const List<String> displayLabels = ['オクターブ', '3', '4', '5', '6'];
+
+  static String randomDisplayLabel(Random random) {
+    return displayLabels[random.nextInt(displayLabels.length)];
   }
 }

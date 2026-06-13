@@ -13,7 +13,7 @@ class SettingsService {
   }
 
   final disableScroll = ValueNotifier<bool>(false);
-  final splitKeyboard = ValueNotifier<bool>(true);
+  final splitKeyboard = ValueNotifier<bool>(false);
   final themeColor = ValueNotifier<Color>(Colors.red);
   final themeMode = ValueNotifier<ThemeMode>(ThemeMode.light);
   final invertKeys = ValueNotifier<bool>(false);
@@ -27,7 +27,7 @@ class SettingsService {
 
   void _loadSettings() {
     disableScroll.value = _prefs.getBool('disableScroll') ?? false;
-    splitKeyboard.value = _prefs.getBool('splitKeyboard') ?? true;
+    splitKeyboard.value = _prefs.getBool('splitKeyboard') ?? false;
     final colorValue = _prefs.getInt('themeColor');
     if (colorValue != null) themeColor.value = Color(colorValue);
     final modeName = _prefs.getString('themeMode');
